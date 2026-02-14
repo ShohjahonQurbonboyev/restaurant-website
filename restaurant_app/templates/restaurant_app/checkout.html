@@ -1,0 +1,64 @@
+{% extends "restaurant_app/base.html" %}
+{% block title %}Rasmiylashtirish{% endblock %}
+
+{% block content %}
+<section class="mx-checkout mx-wrap">
+  <div class="mx-checkout__grid">
+
+    <!-- LEFT -->
+    <div class="mx-checkout__card">
+      <h2 class="mx-checkout__title">Buyurtmani rasmiylashtirish</h2>
+      <p class="mx-checkout__subtitle">Ma’lumotlaringizni kiriting va to‘lov turini tanlang.</p>
+
+      <form method="post" class="mx-form">
+        {% csrf_token %}
+
+        <div class="mx-field">
+          <label for="id_phone">Telefon raqam</label>
+          <input id="id_phone" name="phone" type="tel" placeholder="+998 90 123 45 67" required>
+        </div>
+
+        <div class="mx-field">
+          <label for="id_location">Manzil (lokatsiya)</label>
+          <input id="id_location" name="location" type="text" placeholder="Masalan: Chilonzor, 12-kvartal..." required>
+        </div>
+
+        <div class="mx-field">
+          <label for="id_payment_method">To‘lov turi</label>
+          <select id="id_payment_method" name="payment_method" required>
+            <option value="" selected disabled>Tanlang...</option>
+            <option value="cash">Naqd</option>
+            <option value="card">Karta</option>
+          </select>
+        </div>
+
+        <button type="submit" class="mx-btn mx-btn--primary mx-btn--full">
+          Buyurtmani yuborish
+        </button>
+      </form>
+    </div>
+
+    <!-- RIGHT -->
+    <aside class="mx-checkout__summary">
+      <div class="mx-summary__card">
+        <h3 class="mx-summary__title">Buyurtma xulosasi</h3>
+
+        <div class="mx-summary__row">
+          <span>Mahsulotlar jami</span>
+          <strong>{{ total }} so‘m</strong>
+        </div>
+
+        <div class="mx-summary__row mx-summary__row--total">
+          <span>Umumiy</span>
+          <strong>{{ total }} so‘m</strong>
+        </div>
+
+        <div class="mx-summary__note">
+          Buyurtma yuborilgandan keyin admin panelda ko‘rinadi.
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</section>
+{% endblock %}

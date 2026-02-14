@@ -1,0 +1,290 @@
+{% extends "restaurant_app/base.html" %}
+{% block title %}Menyu{% endblock %}
+{% load money %}
+{% block content %}
+<main class="mx-page">
+
+  <!-- HERO / SLIDER -->
+  <section class="mx-hero">
+    <div class="mx-wrap mx-hero__inner">
+      <div class="mx-hero__left">
+        <img class="mx-hero__img"
+          src="https://leschatsgourmets.com/wp-content/uploads/2024/07/leschatsgourmets-fast-foods-origines-enjeux-alternative-recettes-maison-01.jpg"
+          alt="Food">
+      </div>
+
+      <div class="mx-hero__right">
+        <div class="mx-hero__title">
+          <div class="mx-hero__small">Welcome to</div>
+          <div class="mx-hero__big">STARLIGHT</div>
+          <div class="mx-hero__big2">Restaurant</div>
+        </div>
+
+        <p class="mx-hero__text">
+          Mazali taomlar. Tez yetkazib berish. Ajoyib ta’m. Sevimli taomingizni hoziroq buyurtma qiling!
+        </p>
+
+        <a class="mx-btn mx-btn--orange" href="#products">BUYURTMA BERISH</a>
+      </div>
+    </div>
+
+    <div class="mx-dots" aria-hidden="true">
+      <span class="mx-dot mx-dot--active"></span>
+      <span class="mx-dot"></span>
+      <span class="mx-dot"></span>
+    </div>
+  </section>
+
+  <!-- CATEGORY BAR (TYPES) -->
+  <section class="mx-cat-section" id="products">
+    <div class="mx-wrap">
+      <div class="mx-catbar">
+        {% for c in categories %}
+        <a class="mx-cat" href="#cat-{{ c.slug }}">{{ c.name }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PRODUCTS BY CATEGORY -->
+  {% for c in categories %}
+  <section class="mx-products" id="cat-{{ c.slug }}">
+    <div class="mx-wrap">
+      <h2 class="mx-section-title" style="text-align:left;">{{ c.name }}</h2>
+
+      <div class="mx-products__grid">
+        {% for item in c.items.all %}
+        <div class="mx-card">
+          <div class="mx-card__img">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            {% else %}
+            <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg" alt="{{ item.name }}">
+            {% endif %}
+          </div>
+
+          <div class="mx-card__body">
+            <div class="mx-card__name">{{ item.name }}</div>
+            <div class="mx-card__desc">{{ item.description|truncatechars:55 }}</div>
+
+            <div class="mx-card__bottom">
+              <div class="mx-price">{{ item.price|money }} so'm</div>
+
+              <!-- ✅ GAVHAR STYLE: Add -> Qty controls -->
+              <div class="mx-cartctl" data-id="{{ item.id }}" data-add-url="{% url 'add_to_cart' item.id %}"
+                data-set-url="{% url 'set_cart_qty' item.id %}" data-name="{{ item.name|escapejs }}" data-qty="0">
+
+                <button type="button" class="mx-cartctl__add">
+                  + Savatga qo‘shish
+                </button>
+
+                <div class="mx-cartctl__qty">
+                  <button type="button" class="mx-qty-btn" data-act="dec">−</button>
+                  <div class="mx-qty-mid">
+                    <div class="mx-qty-label">MIQDOR:</div>
+                    <div class="mx-qty-num">1</div>
+                  </div>
+                  <button type="button" class="mx-qty-btn" data-act="inc">+</button>
+                </div>
+              </div>
+              <!-- ✅ END -->
+
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p>Bu bo‘limda mahsulot yo‘q.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  <!-- RECIPES -->
+  <section class="mx-recipes" id="recipes">
+    <div class="mx-wrap">
+      <h2 class="mx-section-title">Our Recipes</h2>
+
+      <div class="mx-recipes-grid">
+        {% for r in recipes %}
+        <article class="mx-recipe-card">
+          <div class="mx-recipe-media">
+            {% if r.image %}
+            <img src="{{ r.image.url }}" alt="{{ r.title }}">
+            {% else %}
+            <div class="mx-recipe-noimg">Rasm yo‘q</div>
+            {% endif %}
+          </div>
+
+          <div class="mx-recipe-body">
+            <h3 class="mx-recipe-title">{{ r.title }}</h3>
+
+            <p class="mx-recipe-text clamp" id="desc-{{ r.id }}">
+              {{ r.description }}
+            </p>
+
+            <div class="mx-recipe-meta">
+              {% if r.created_at %}<span>📅 {{ r.created_at|date:"d.m.Y" }}</span>{% endif %}
+              {% if r.is_featured %}<span class="mx-badge">Namoyish qilingan</span>{% endif %}
+            </div>
+          </div>
+        </article>
+        {% empty %}
+        <p>Hali recipe yo‘q.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- BLOG -->
+  <section class="mx-info" id="blog">
+    <div class="mx-wrap">
+      <div class="mx-info__head">
+        <h2 class="mx-section-title">Blog</h2>
+        <p class="mx-info__sub">Yangiliklar, tavsiyalar va eng zo‘r ta’mlar haqida qisqa postlar.</p>
+      </div>
+
+      <div class="mx-info__grid">
+        <article class="mx-post">
+          <div class="mx-post__tag">New</div>
+          <h3 class="mx-post__title">Bugungi aksiya</h3>
+          <p class="mx-post__text">Tezkor buyurtma qiling va yetkazib berishda chegirmadan foydalaning.</p>
+        </article>
+
+        <article class="mx-post">
+          <div class="mx-post__tag">Tip</div>
+          <h3 class="mx-post__title">Eng ko‘p buyurtma qilinadiganlar</h3>
+          <p class="mx-post__text">Burger + kartoshka + ichimlik — eng mashhur to‘plam.</p>
+        </article>
+
+        <article class="mx-post">
+          <div class="mx-post__tag">News</div>
+          <h3 class="mx-post__title">Yangi menyu</h3>
+          <p class="mx-post__text">Milliy taomlar bo‘limi yangilandi. Albatta sinab ko‘ring.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="mx-info mx-info--alt" id="about">
+    <div class="mx-wrap">
+      <div class="mx-about">
+        <div class="mx-about__left">
+          <h2 class="mx-section-title">About</h2>
+          <p class="mx-info__sub">
+            STARLIGHT — mazali taomlar, tez yetkazib berish va doimiy sifat. Biz har bir buyurtmani
+            issiq va yangi holatda yetkazishga harakat qilamiz.
+          </p>
+
+          <div class="mx-features">
+            <div class="mx-feat">
+              <div class="mx-feat__icon">⚡</div>
+              <div>
+                <div class="mx-feat__title">Tez yetkazib berish</div>
+                <div class="mx-feat__text">Buyurtmalar tezkor qabul qilinadi.</div>
+              </div>
+            </div>
+
+            <div class="mx-feat">
+              <div class="mx-feat__icon">🍔</div>
+              <div>
+                <div class="mx-feat__title">Yangi mahsulotlar</div>
+                <div class="mx-feat__text">Har kuni yangi ingredientlar.</div>
+              </div>
+            </div>
+
+            <div class="mx-feat">
+              <div class="mx-feat__icon">⭐</div>
+              <div>
+                <div class="mx-feat__title">Sifat nazorati</div>
+                <div class="mx-feat__text">Har bir taom tekshiriladi.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mx-about__right">
+          <div class="mx-about__card">
+            <div class="mx-about__kpi">
+              <div class="mx-kpi">
+                <div class="mx-kpi__num">15+</div>
+                <div class="mx-kpi__lbl">Turdagi taom</div>
+              </div>
+              <div class="mx-kpi">
+                <div class="mx-kpi__num">10-25</div>
+                <div class="mx-kpi__lbl">min yetkazish</div>
+              </div>
+              <div class="mx-kpi">
+                <div class="mx-kpi__num">4.9</div>
+                <div class="mx-kpi__lbl">Reyting</div>
+              </div>
+            </div>
+
+            <div class="mx-about__note">
+              <b>Ish vaqti:</b> 09:00 – 23:00 <br>
+              <b>Manzil:</b> Xorazm, Urganch
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="mx-info" id="contact">
+    <div class="mx-wrap">
+      <div class="mx-info__head">
+        <h2 class="mx-section-title">Contact</h2>
+        <p class="mx-info__sub">Savol yoki buyurtma bo‘yicha yozing — tezda javob beramiz.</p>
+      </div>
+
+      <div class="mx-contact">
+        <div class="mx-contact__card">
+          <div class="mx-contact__row">
+            <span class="mx-contact__label">Telefon</span>
+            <a class="mx-contact__value" href="tel:+998885002254">+998-88-500-22-54</a>
+          </div>
+          <div class="mx-contact__row">
+            <span class="mx-contact__label">Telegram</span>
+            <a class="mx-contact__value" href="https://t.me/this_is_shoxa" onclick="return true;">Telegram</a>
+          </div>
+          <div class="mx-contact__row">
+            <span class="mx-contact__label">Email</span>
+            <a class="mx-contact__value" href="mailto:saidaliruzimbayev@gmail.com">E-mail</a>
+          </div>
+        </div>
+
+        <form id="feedbackForm" class="mx-contact__form" action="#" method="post">
+          {% csrf_token %}
+
+          <div class="mx-field">
+            <label>Ism</label>
+            <input type="text" name="name" placeholder="Ismingiz" required>
+          </div>
+
+          <div class="mx-field">
+            <label>Telefon</label>
+            <input type="text" name="phone" placeholder="+998 ..">
+          </div>
+
+          <div class="mx-field">
+            <label>Xabar</label>
+            <textarea name="message" rows="4" placeholder="Xabaringiz..." required></textarea>
+          </div>
+
+          <button class="mx-btn mx-btn--orange" type="submit">Yuborish</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+</main>
+{% endblock %}

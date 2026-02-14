@@ -1,0 +1,51 @@
+{% extends "restaurant_app/base.html" %}
+{% block title %}Buyurtma qabul qilindi{% endblock %}
+
+{% block content %}
+<section class="success-section container">
+  <div class="success-card">
+
+    <div class="success-icon" aria-hidden="true">✓</div>
+
+    <h2 class="success-title">Rahmat! Buyurtmangiz qabul qilindi.</h2>
+    <p class="success-subtitle">
+      Tez orada operatorimiz siz bilan bog‘lanadi. Quyida buyurtma ma’lumotlari:
+    </p>
+
+    <div class="success-grid">
+      <div class="success-item">
+        <span class="label">Buyurtma raqami</span>
+        <span class="value">#{{ order.id }}</span>
+      </div>
+
+      <div class="success-item">
+        <span class="label">Telefon</span>
+        <span class="value">{{ order.phone }}</span>
+      </div>
+
+      <div class="success-item">
+        <span class="label">Manzil</span>
+        <span class="value">{{ order.location }}</span>
+      </div>
+
+      <div class="success-item">
+        <span class="label">To‘lov turi</span>
+        <span class="value">
+          {% if order.payment_method == "cash" %}Naqt{% else %}Karta{% endif %}
+        </span>
+      </div>
+
+      <div class="success-item success-total">
+        <span class="label">Jami</span>
+        <span class="value">{{ order.total }} so‘m</span>
+      </div>
+    </div>
+
+    <div class="success-actions">
+      <a class="btn btn-success" href="{% url 'menu' %}">Menyuga qaytish</a>
+      <a class="btn btn-success-outline" href="{% url 'cart' %}">Savatchani ko‘rish</a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

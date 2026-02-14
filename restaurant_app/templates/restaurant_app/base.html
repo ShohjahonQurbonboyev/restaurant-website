@@ -1,0 +1,70 @@
+{% load static %}
+
+
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}My Restaurant{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'restaurant_app/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'restaurant_app/css/pages/category.css' %}">
+  
+
+</head>
+<body>
+
+<header class="mx-topbar">
+  <div class="mx-wrap mx-topbar__inner">
+    <button class="mx-burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="mx-nav">
+      <a href="{% url 'menu' %}">ASOSIY</a>
+      <a href="{% url 'menu' %}#products">MENU</a>
+      <a href="{% url 'menu' %}#recipes">RETSEP</a>
+      <a href="{% url 'menu' %}#blog">BLOG</a>
+      <a href="{% url 'menu' %}#about">ABOUT</a>
+      <a href="{% url 'menu' %}#contact">CONTACT</a>
+    </nav>
+
+    <div class="mx-topbar__right">
+      <div class="mx-delivery">
+        <div class="mx-delivery__label">Bog'lanish</div>
+        <div class="mx-delivery__phone">+998-88-500-22-54</div>
+      </div>
+
+      <div class="mx-logo">SHOXA</div>
+    </div>
+  </div>
+</header>
+
+{% block content %}{% endblock %}
+
+
+{% if request.resolver_match.url_name == 'menu' %}
+<a href="{% url 'cart' %}" class="mx-floating-cart {% if cart_count == 0 %}is-hidden{% endif %}">
+  <div class="mx-floating-cart__left">🛒 Savatcha</div>
+  <div class="mx-floating-cart__right">
+    <span class="mx-floating-cart__count">{{ cart_count }}</span>
+  </div>
+</a>
+{% endif %}
+
+
+
+
+<footer class="mx-footer">
+  <div class="mx-wrap mx-footer__inner">
+    <span>© 2026 My Restaurant. All rights reserved.</span>
+  </div>
+</footer>
+<script src="{% static 'restaurant_app/js/main.js' %}"></script>
+</body>
+</html>

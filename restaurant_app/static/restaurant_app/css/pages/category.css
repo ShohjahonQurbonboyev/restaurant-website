@@ -1,0 +1,80 @@
+/* =========================
+   CATEGORY BAR (mx-catbar)
+   ========================= */
+
+.mx-cat-section {
+  margin: 18px 0 10px;
+}
+
+/* Sticky + blur + shadow */
+.mx-catbar{
+  position: sticky;
+  top: 12px;                 /* header bo'lsa: top ni moslang */
+  z-index: 30;
+
+  display: flex;
+  gap: 10px;
+
+  padding: 12px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;      /* Firefox */
+}
+.mx-catbar::-webkit-scrollbar{ display:none; } /* Chrome */
+
+/* category "chip" */
+.mx-cat{
+  scroll-snap-align: start;
+  white-space: nowrap;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .2px;
+
+  color: #1f2937;            /* slate-800 */
+  text-decoration: none;
+
+  background: rgba(17, 24, 39, 0.04);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+}
+
+/* hover */
+.mx-cat:hover{
+  transform: translateY(-1px);
+  background: rgba(255, 122, 0, 0.10);
+  border-color: rgba(255, 122, 0, 0.30);
+  box-shadow: 0 10px 18px rgba(255, 122, 0, 0.18);
+}
+
+/* active state (JS bilan qo'shamiz) */
+.mx-cat.is-active{
+  background: #ff7a00;
+  color: #fff;
+  border-color: #ff7a00;
+  box-shadow: 0 14px 22px rgba(255, 122, 0, 0.32);
+}
+
+/* kichik ekranlarda biroz ixcham */
+@media (max-width: 520px){
+  .mx-catbar{ padding: 10px; border-radius: 16px; }
+  .mx-cat{ padding: 9px 12px; font-size: 13px; }
+}

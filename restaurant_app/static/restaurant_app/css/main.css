@@ -1,0 +1,12 @@
+@import url("./base.css");
+@import url("./layout.css");
+@import url("./components.css");
+
+/* Pages */
+@import url("./pages/cart.css");
+@import url("./pages/checkout.css");
+@import url("./pages/order_complete.css");
+@import url("./pages/recipes.css");
+@import url("./pages/category.css");
+@import url("./pages/card_control.css");
+@import url("./pages/info_section.css");

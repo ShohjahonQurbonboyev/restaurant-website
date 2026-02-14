@@ -1,0 +1,53 @@
+{% extends "restaurant_app/base.html" %}
+{% block title %}Savatcha{% endblock %}
+{% load money %}
+{% block content %}
+
+<section class="cart-section container">
+    <h2 class="section-title">Savatcha</h2>
+
+    {% if cart_items %}
+    <div class="cart-grid">
+        <div class="cart-head">
+            <span class="col1">Mahsulot</span>
+            <span class="col2">Miqdor</span>
+            <span class="col3">Narx</span>
+            <span class="col4">Jami</span>
+            <span class="col5">Amal</span>
+        </div>
+
+        {% for ci in cart_items %}
+        <div class="cart-row">
+            <div class="item-info">
+                {% if ci.item.image %}
+                <div class="item-img">
+                    <img src="{{ ci.item.image.url }}" alt="{{ ci.item.name }}">
+                </div>
+                {% endif %}
+                <span>{{ ci.item.name }}</span>
+            </div>
+            <span class="qty">{{ ci.qty }}</span>
+            <span class="price">{{ ci.item.price|money }} so'm</span>
+            <span class="subtotal">{{ ci.subtotal|money }} so'm</span>
+            <span class="action">
+                <a href="{% url 'remove_from_cart' ci.item.id %}" class="remove-btn"><i
+                        class="fa-solid fa-trash"></i></a>
+            </span>
+        </div>
+        {% endfor %}
+
+        <div class="cart-total">
+            <span><strong>Jami:</strong> {{ total }} so'm</span>
+        </div>
+    </div>
+
+    <div class="checkout-btn">
+        <a href="{% url 'checkout' %}" class="btn btn-checkout">Rasmiylashtirish</a>
+    </div>
+
+    {% else %}
+    <p class="empty-cart">Savatcha bo‘sh.</p>
+    {% endif %}
+</section>
+
+{% endblock %}
